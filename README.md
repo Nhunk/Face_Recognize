@@ -1,2 +1,2 @@
 # Face_Recognize
-# cc
+## Công cụ & phương pháp
