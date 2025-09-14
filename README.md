@@ -15,7 +15,7 @@ Người dùng có thể **đăng nhập qua web ASP.NET** để xem bảng ch�
 
 ---
 
-## Cấu trúc thư mục (dự kiến)
+### Cấu trúc thư mục (dự kiến)
 ```bash
 project/
 │── model/              # Transformer + FAISS model
@@ -24,6 +24,7 @@ project/
 │── src/                # Mã nguồn Python nhận diện
 │── docs/               # Tài liệu thiết kế, mô tả
 │── README.md
+```
 
 ### Công nghệ sử dụng
 - Ngôn ngữ: Python 3.10, C# (ASP.NET WebForms)
