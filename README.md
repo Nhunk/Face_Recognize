@@ -39,4 +39,5 @@ Khi điểm danh, camera quét → mô hình so khớp khuôn mặt → ghi nh�
 Quản trị viên/nhân viên đăng nhập web ASP.NET → xem ngày công
 
 **Repository**
+
 GitHub: Recognition-for-Automated-Attendance-Management
