@@ -2,7 +2,6 @@
 
 Hệ thống chấm công tự động bằng gương mặt.  
 Dự án kết hợp **nhận diện khuôn mặt với Transformer + FAISS** để tăng tốc độ và độ chính xác, đồng thời sử dụng **MySQL-MariaDB** để lưu trữ dữ liệu nhân viên và ngày công.  
-Người dùng có thể **đăng nhập qua web ASP.NET** để xem bảng chấm công.
 
 ---
 
@@ -38,7 +37,7 @@ Nhân viên đăng ký khuôn mặt → hệ thống lưu vector embedding vào 
 Khi điểm danh, camera quét → mô hình so khớp khuôn mặt → ghi nhận thời gian vào/ra
 Quản trị viên/nhân viên đăng nhập web ASP.NET → xem ngày công
 
-#### 1. Cài đặt cơ sở dữ liệu MySQL/MariaDB
+#### Bước 1. Cài đặt cơ sở dữ liệu MySQL/MariaDB
 - Cài đặt MySQL hoặc MariaDB trên máy.
 - Tạo database tên nckh:
 ```bash
@@ -48,7 +47,7 @@ CREATE DATABASE nckh;
 ```bash
 mysql -u root -p nckh < database/schema.sql
 ```
-#### 2. Cấu hình chuỗi kết nối (ASP.NET)
+#### Bước 2. Cấu hình chuỗi kết nối (ASP.NET)
 Trong file Web.config hoặc App.config thêm:
 ```bash
 <connectionStrings>
@@ -59,7 +58,7 @@ Trong file Web.config hoặc App.config thêm:
 ```
 Thay user id và password theo tài khoản MySQL của bạn.
 
-#### 3. Cài đặt môi trường Python (AI Model)
+#### Bước 3. Cài đặt môi trường Python (AI Model)
 ##### Tạo môi trường ảo:
 ```bash
 python -m venv venv
@@ -72,8 +71,7 @@ venv\Scripts\activate     # Windows
 pip install -r src/requirements.txt
 ```
 
-#### 4. Train và chạy mô hình nhận diện
-
+#### Bước 4. Train và chạy mô hình nhận diện
 Chạy script để huấn luyện hoặc nạp model sẵn:
 ```bash
 python src/train_model.py
@@ -85,7 +83,6 @@ python src/face_recognition.py
 ```
 
 #### 5. Chạy ứng dụng Web ASP.NET
-
 - Mở web/ trong Visual Studio.
 - Kiểm tra lại connectionStrings.
 - Nhấn Run (IIS Express) để khởi chạy website.
