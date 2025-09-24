@@ -38,6 +38,74 @@ Nhân viên đăng ký khuôn mặt → hệ thống lưu vector embedding vào 
 Khi điểm danh, camera quét → mô hình so khớp khuôn mặt → ghi nhận thời gian vào/ra
 Quản trị viên/nhân viên đăng nhập web ASP.NET → xem ngày công
 
+#### 1. Cài đặt cơ sở dữ liệu MySQL/MariaDB
+
+Cài đặt MySQL hoặc MariaDB trên máy.
+
+Tạo database tên nckh:
+
+CREATE DATABASE nckh;
+
+
+Import file SQL trong thư mục database/ để tạo bảng và dữ liệu mẫu:
+
+mysql -u root -p nckh < database/schema.sql
+
+#### 2. Cấu hình chuỗi kết nối (ASP.NET)
+
+Trong file Web.config hoặc App.config thêm:
+
+<connectionStrings>
+  <add name="ConnectionString"
+       connectionString="server=localhost;user id=root;password=1234;database=nckh;SslMode=none;AllowPublicKeyRetrieval=true;"
+       providerName="MySql.Data.MySqlClient"/>
+</connectionStrings>
+
+
+🔑 Thay user id và password theo tài khoản MySQL của bạn.
+
+#### 3. Cài đặt môi trường Python (AI Model)
+
+##### Tạo môi trường ảo:
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+```
+
+
+##### Cài dependencies:
+```bash
+pip install -r src/requirements.txt
+```
+
+#### 4. Train và chạy mô hình nhận diện
+
+Chạy script để huấn luyện hoặc nạp model sẵn:
+```bash
+python src/train_model.py
+```
+
+
+Khởi chạy module nhận diện:
+```bash
+
+python src/face_recognition.py
+```
+
+#### 5. Chạy ứng dụng Web ASP.NET
+
+Mở web/ trong Visual Studio.
+
+Kiểm tra lại connectionStrings.
+
+Nhấn Run (IIS Express) để khởi chạy website.
+
+Truy cập http://localhost:5000 để đăng nhập và xem ngày công.
+
+
+
+
 **Repository**
 
 GitHub: Recognition-for-Automated-Attendance-Management
