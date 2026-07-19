@@ -22,6 +22,8 @@ from transformers import ViTModel, AutoImageProcessor
 import albumentations as A
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 import random
+import mlflow
+import mlflow.pyfunc
 
 class DinoFaceRecognition:
     def __init__(self, src_dir=None):
@@ -136,9 +138,15 @@ class DinoFaceRecognition:
                     "label_to_id": self.class_to_id
                 }, f)
 
-    def train_in_batches(self, faiss_index_path=None, batch_size=10):
+    def train_in_batches(self, faiss_index_path=None, batch_size=10, augment_ratio=0.4):
         if not self.src_dir:
             raise ValueError("Source directory (src_dir) not specified")
+
+        # Start MLflow run
+        mlflow.set_experiment("Face_Recognition_Training")
+        mlflow.start_run(run_name=f"train_batch_{batch_size}")
+        mlflow.log_param("batch_size", batch_size)
+        mlflow.log_param("augment_ratio", augment_ratio)
 
         self.labels = []
         all_class_names = sorted([name for name in os.listdir(self.src_dir) if not name.startswith('.')])
@@ -164,7 +172,7 @@ class DinoFaceRecognition:
                             images.append(img)
                             labels.append(class_name)
 
-            augmented_imgs = self.augment_image(images, augment_ratio=0.4)
+            augmented_imgs = self.augment_image(images, augment_ratio=augment_ratio)
             images.extend(augmented_imgs)
             labels.extend([labels[i] for i in random.sample(range(len(labels)), len(augmented_imgs))])
 
@@ -215,6 +223,12 @@ class DinoFaceRecognition:
 
             gc.collect()
             torch.cuda.empty_cache()
+            
+        # Log final FAISS index as artifact
+        if faiss_index_path:
+            mlflow.log_artifact(f"{faiss_index_path}.faiss")
+            mlflow.log_artifact(f"{faiss_index_path}_metadata.pkl")
+        mlflow.end_run()
   
 
     def recognize_face_topk(self, query_img, threshold=3200, top_k=5):
@@ -329,6 +343,15 @@ class DinoFaceRecognition:
           except:
               roc_auc = "Cannot compute ROC AUC (possibly not enough classes)"
   
+          mlflow.set_experiment("Face_Recognition_Evaluation")
+          with mlflow.start_run(run_name="evaluate_testset"):
+              mlflow.log_param("threshold", threshold)
+              mlflow.log_param("top_k", top_k)
+              mlflow.log_metric("Accuracy", acc)
+              mlflow.log_metric("F1_Score", f1)
+              if isinstance(roc_auc, float):
+                  mlflow.log_metric("ROC_AUC", roc_auc)
+
           return {
               "Accuracy": acc,
               "F1 Score (macro)": f1,

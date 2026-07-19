@@ -1,92 +1,86 @@
-# Recognition for Automated Attendance Management
+# 🚀 Enterprise Face Recognition & MLOps System
 
-Hệ thống chấm công tự động bằng gương mặt.  
-Dự án kết hợp **nhận diện khuôn mặt với Transformer + FAISS** để tăng tốc độ và độ chính xác, đồng thời sử dụng **MySQL-MariaDB** để lưu trữ dữ liệu nhân viên và ngày công.  
+![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![MLflow](https://img.shields.io/badge/MLflow-0194E2?style=for-the-badge&logo=mlflow&logoColor=white)
 
----
+Hệ thống điểm danh thông minh tự động hoàn toàn dựa trên công nghệ Nhận diện Khuôn mặt, được phát triển theo tiêu chuẩn sản xuất (production-ready) với kiến trúc Microservices và 파ipeline MLOps toàn diện.
 
-## Tính năng chính
-- Nhận diện khuôn mặt nhân viên bằng mô hình **Transformer + FAISS**  
-- Quản lý nhân viên và thông tin chấm công qua **SQL Server**  
-- Hệ thống web **ASP.NET** để đăng nhập và xem ngày công  
-- Tự động tính số ngày công dựa trên giờ vào/ra  
-- Cấu trúc hướng đối tượng, dễ mở rộng  
+Dự án ứng dụng các công nghệ tiên tiến nhất trong Computer Vision như **Vision Transformer (Dinov2)**, **YOLOv8** và hệ thống truy vấn vector **FAISS**.
 
 ---
 
-### Cấu trúc thư mục (dự kiến)
+## ✨ Tính năng nổi bật (Key Features)
+
+### 1. Computer Vision & Deep Learning
+- **Phát hiện khuôn mặt (Face Detection):** Tích hợp **YOLOv8** (`Ultralytics`) để phát hiện và cắt khuôn mặt với tốc độ xử lý thời gian thực, khắc phục các hạn chế về góc nghiêng và điều kiện ánh sáng.
+- **Trích xuất đặc trưng (Feature Extraction):** Sử dụng **Vision Transformer (Dinov2)** từ HuggingFace để chuyển đổi hình ảnh khuôn mặt thành vector đặc trưng (embeddings) với độ chính xác cực cao.
+- **Tìm kiếm tương đồng (Similarity Search):** Triển khai **FAISS** (Facebook AI Similarity Search) để so khớp vector, cho phép nhận diện hàng ngàn nhân viên chỉ trong vài mili-giây.
+
+### 2. MLOps & System Architecture
+- **Microservices API:** Đóng gói toàn bộ logic suy luận (inference) thành các endpoint RESTful tốc độ cao bằng **FastAPI**.
+- **Containerization:** Triển khai linh hoạt với **Docker** và **Docker Compose**, đảm bảo tính nhất quán từ môi trường phát triển (Local) đến máy chủ đám mây (AWS EC2/ECS).
+- **Experiment Tracking:** Sử dụng **MLflow** để theo dõi chặt chẽ vòng đời mô hình, log lại các siêu tham số (hyperparameters), metrics (Accuracy, F1 Score) và quản lý model artifacts (FAISS Index).
+
+### 3. Data Pipeline & Analytics
+- **Auto-Annotation:** Pipeline tiền xử lý tự động sử dụng YOLO để trích xuất ảnh khuôn mặt từ video thô, tối ưu hóa quá trình xây dựng tập dữ liệu huấn luyện.
+- **Time-Series Analysis:** Module phân tích dữ liệu chuỗi thời gian (điểm danh) bằng **Pandas**, giúp phát hiện xu hướng đi trễ/về sớm và dự báo số lượng nhân sự có mặt (Forecasting).
+
+---
+
+## 🛠 Công nghệ sử dụng (Tech Stack)
+
+| Lĩnh vực | Công nghệ |
+| :--- | :--- |
+| **Computer Vision** | `PyTorch`, `Transformers (Dinov2)`, `Ultralytics (YOLOv8)`, `OpenCV` |
+| **Machine Learning** | `FAISS`, `Scikit-learn`, `Pandas`, `Albumentations` |
+| **MLOps & Backend** | `FastAPI`, `Docker`, `Docker Compose`, `MLflow` |
+| **Database & UI** | `MySQL / MariaDB`, `Tkinter` |
+
+---
+
+## 🚀 Hướng dẫn Cài đặt & Khởi chạy (Quick Start)
+
+Nhờ kiến trúc Dockerized, việc khởi chạy toàn bộ hệ thống trở nên cực kỳ đơn giản mà không cần cấu hình rườm rà.
+
+### Yêu cầu:
+- [Docker](https://docs.docker.com/get-docker/) và [Docker Compose](https://docs.docker.com/compose/install/) đã được cài đặt.
+
+### Khởi chạy hệ thống:
+1. Clone repository về máy.
+2. Mở terminal tại thư mục gốc của dự án.
+3. Chạy lệnh sau để build và khởi động hệ thống:
+```bash
+docker-compose up -d --build
+```
+
+### Các Dịch vụ sau khi khởi chạy:
+- **FastAPI (Swagger UI):** Truy cập `http://localhost:8000/docs` để test trực tiếp các API nhận diện.
+- **MLflow Dashboard:** Truy cập `http://localhost:5000` để xem các báo cáo huấn luyện và metrics.
+
+---
+
+## 📂 Cấu trúc Thư mục Hệ thống
+
 ```bash
 project/
-│── model/              # Transformer + FAISS model
-│── database/           # SQL scripts, schema
-│── web/                # ASP.NET WebForms/ASP.NET MVC
-│── src/                # Mã nguồn Python nhận diện
-│── docs/               # Tài liệu thiết kế, mô tả
-│── README.md
+├── api/                   # FastAPI Server (Endpoints: /detect, /recognize)
+├── model/                 # Core AI Models (Dinov2, YOLO) & MLflow Tracking
+├── data_pipeline/         # Scripts Auto-annotation và Data processing
+├── database/              # SQL scripts cho dữ liệu nhân sự (MySQL)
+├── web/                   # (Tùy chọn) Giao diện quản lý Web
+├── Dockerfile             # Cấu hình container cho FastAPI API
+├── docker-compose.yml     # Khởi chạy hệ thống Microservices
+└── requirements.txt       # Dependencies
 ```
 
-### Công nghệ sử dụng
-- Ngôn ngữ: Python 3.10, C# (ASP.NET WebForms)
-- Database: SQL Server
-- Machine Learning: Transformer, FAISS (Facebook AI Similarity Search)
-- Web: ASP.NET (đăng nhập & xem ngày công)
+---
 
+## 👨‍💻 Tác giả & Ứng dụng thực tế
 
-### Hướng dẫn sử dụng (tổng quan)
-Nhân viên đăng ký khuôn mặt → hệ thống lưu vector embedding vào FAISS + SQL Server
-Khi điểm danh, camera quét → mô hình so khớp khuôn mặt → ghi nhận thời gian vào/ra
-Quản trị viên/nhân viên đăng nhập web ASP.NET → xem ngày công
-
-#### Bước 1. Cài đặt cơ sở dữ liệu MySQL/MariaDB
-- Cài đặt MySQL hoặc MariaDB trên máy.
-- Tạo database tên nckh:
-```bash
-CREATE DATABASE nckh;
-```
-- Import file SQL trong thư mục database/ để tạo bảng và dữ liệu mẫu:
-```bash
-mysql -u root -p nckh < database/schema.sql
-```
-#### Bước 2. Cấu hình chuỗi kết nối (ASP.NET)
-Trong file Web.config hoặc App.config thêm:
-```bash
-<connectionStrings>
-  <add name="ConnectionString"
-       connectionString="server=localhost;user id=root;password=1234;database=nckh;SslMode=none;AllowPublicKeyRetrieval=true;"
-       providerName="MySql.Data.MySqlClient"/>
-</connectionStrings>
-```
-Thay user id và password theo tài khoản MySQL của bạn.
-
-#### Bước 3. Cài đặt môi trường Python (AI Model)
-##### Tạo môi trường ảo:
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
-```
-
-##### Cài dependencies:
-```bash
-pip install -r src/requirements.txt
-```
-
-#### Bước 4. Train và chạy mô hình nhận diện
-Chạy script để huấn luyện hoặc nạp model sẵn:
-```bash
-python src/train_model.py
-```
-
-Khởi chạy module nhận diện:
-```bash
-python src/face_recognition.py
-```
-
-#### 5. Chạy ứng dụng Web ASP.NET
-- Mở web/ trong Visual Studio.
-- Kiểm tra lại connectionStrings.
-- Nhấn Run (IIS Express) để khởi chạy website.
-- Truy cập http://localhost:5000 để đăng nhập và xem ngày công.
-
-**Repository**
-GitHub: Recognition-for-Automated-Attendance-Management
+Dự án này được xây dựng không chỉ như một phần mềm Quản lý điểm danh, mà còn là một minh chứng (Proof of Concept) cho khả năng:
+- Áp dụng các bài báo khoa học (Vision Transformers) vào thực tế sản xuất.
+- Kỹ năng triển khai mô hình học máy (Deploy / MLOps).
+- Khả năng tích hợp liên phòng ban (Phần cứng Camera -> AI Model -> Database/Backend).

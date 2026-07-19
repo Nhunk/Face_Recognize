@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+.env
+.venv
+
+# Models and Weights (DO NOT PUSH TO GITHUB)
+*.pt
+*.pth
+*.onnx
+*.weights
+*.faiss
+*.pkl
+mlruns/
+yolov8n-face.pt
+
+# Datasets and Images
+train_img/
+raw_data/
+test/
+*.jpg
+*.jpeg
+*.png
+*.mp4
+
+# IDEs
+.vscode/
+.idea/
+.vs/
+*.swp
+
+# OS Files
+.DS_Store
+Thumbs.db
